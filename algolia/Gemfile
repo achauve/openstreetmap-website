@@ -1,0 +1,8 @@
+source 'http://rubygems.org'
+
+gem 'algoliasearch'
+
+# To get country name from country code
+gem 'countries'
+
+
