@@ -332,6 +332,25 @@ $(document).ready(function () {
     }
   });
 
+  // Algolia cities autocompletion
+  var algolia = new AlgoliaSearch('Y0LXQH3SPV', 'f53118aa75c2bf2c5063c6c9ca1f8f67');
+  var index = algolia.initIndex('OpenStreetMap');
+
+  $(".search_form input[name=query]").typeahead({ hint: false }, {
+      source: index.ttAdapter({ hitsPerPage: 5, "aroundLatLngViaIP": true, "aroundRadius": 100000000 }),
+      displayKey: function(hit) { return hit.name + ', ' + hit.country },
+      templates: {
+          suggestion: function(hit) {
+              return '<div class="hit">' +
+                  '<div class="name">' +
+                  hit._highlightResult.name.value + ', ' +
+                  hit._highlightResult.country.value +
+                  '</div>' +
+                  '</div>';
+          }
+      }
+  });
+
   $(".describe_location").on("click", function(e) {
     e.preventDefault();
     var center = map.getCenter().wrap(),
